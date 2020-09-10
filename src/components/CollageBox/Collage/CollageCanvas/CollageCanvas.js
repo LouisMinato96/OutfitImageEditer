@@ -67,10 +67,14 @@ const CollageCanvas = ( props ) => {
   // eslint-disable-next-line  
   }, [props.selectedIndex]);
 
+  let LastPosX = props.canImg.ImagePosX;
+  let LastPosY = props.canImg.ImagePosY;
 
   const captureMousePosition = ( event ) => {
     const posX = event.clientX - 25 ;
     const posY = event.clientY - 175;
+    LastPosX = posX;
+    LastPosY = posY;
     // console.log( 'Capture', posX , posY );
     drawImageOnCanvasWithBorder( posX, posY );
   }
@@ -82,7 +86,11 @@ const CollageCanvas = ( props ) => {
 
   const resetForMoveImage = (event) => {
     console.log( 'CanvasMouseUp', props.canindex );
+    
+    props.setPosition( LastPosX, LastPosY );
+
     canvasRef.current.removeEventListener( 'mousemove', captureMousePosition );
+    
   }
 
   return (

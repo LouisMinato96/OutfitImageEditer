@@ -14,7 +14,7 @@ class CollageMaker extends Component{
   getGalleryImages = () => {
 
     this.setState( { galleryImages: [] } )
-    const randomImegeListURL = `https://picsum.photos/v2/list?page=1&limit=20`; // ${ Math.floor( Math.random() * 10 ) + 1 }
+    const randomImegeListURL = `https://picsum.photos/v2/list?page=${ Math.floor( Math.random() * 10 ) + 1 }&limit=20`; // 
 
     fetch( randomImegeListURL )
       .then(res => res.json())
@@ -54,6 +54,7 @@ class CollageMaker extends Component{
       return;
     }
     const image = new Image();
+    image.crossOrigin = "Anonymous";
     image.src = img.download_url;
 
     newCanvasImage.push( {

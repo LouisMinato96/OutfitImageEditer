@@ -53,6 +53,49 @@ const Collage = ( props ) => {
     }
   );
 
+  const saveCanvas = () => {
+    const cans = document.getElementsByTagName('canvas'); 
+    
+    const canImages = [];
+
+    Object.keys( cans ).forEach(
+      ( canKey ) => {
+        const img = new Image();
+        const data = cans[ canKey ].toDataURL("image/png");
+        img.onload = () => {
+          canImages.push( img );
+        }
+        img.src = data;
+      }
+    );
+
+    setTimeout( () => {
+
+      const newCanvas = document.createElement( 'canvas' );
+      newCanvas.width = canvasDimension.width;
+      newCanvas.height = canvasDimension.height;
+      const ctx = newCanvas.getContext('2d');
+  
+      canImages.forEach(
+        ( img ) => {
+          ctx.drawImage( img, 0, 0, newCanvas.width, newCanvas.height );
+        }
+      );
+  
+      // newCanvas.style.position = 'fixed';
+      // newCanvas.style.top = '0px';
+      // newCanvas.style.left = '0px';
+      // newCanvas.style.backgroundColor = 'red';
+      // newCanvas.style.zIndex = 99999;
+      // document.getElementsByTagName('body')[0].append( newCanvas );     
+      
+      const data = newCanvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+      window.location.href=data;
+
+    }, 1000 );
+
+  }
+
   return (
     <Aux>
       <div className={classes.CollageHeader} >
@@ -65,6 +108,12 @@ const Collage = ( props ) => {
             onClick={ props.resetCanvesImages }
           >
             <i className="fas fa-sync"></i>
+          </div>
+          <div 
+            className={classes.saveBtn} 
+            onClick={ saveCanvas }
+          >
+            <i className="fas fa-save"></i>
           </div>
         </div>
       </div>
